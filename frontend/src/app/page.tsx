@@ -12,6 +12,13 @@ const Home = () => {
       content:
         'Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur officiis facere rem laudantium sequi iure, repudiandae, est corporis fuga dolorum nobis, pariatur quam nihil incidunt animi. Asperiores totam voluptatem consectetur.',
       createdAt: Date.now(),
+      user: {
+        username: 'Ercan1 Akalar',
+      },
+      comment: [
+        { id: 2, username: 'Ercan2 Akalar' },
+        { id: 3, username: 'Ercan2 Akalar' },
+      ],
     },
     {
       id: 2,
@@ -19,6 +26,13 @@ const Home = () => {
       content:
         'Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur officiis facere rem laudantium sequi iure, repudiandae, est corporis fuga dolorum nobis, pariatur quam nihil incidunt animi. Asperiores totam voluptatem consectetur.',
       createdAt: Date.now(),
+      user: {
+        username: 'Ercan2 Akalar',
+      },
+      comment: [
+        { id: 2, username: 'Ercan2 Akalar' },
+        { id: 3, username: 'Ercan2 Akalar' },
+      ],
     },
     {
       id: 3,
@@ -26,6 +40,13 @@ const Home = () => {
       content:
         'Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur officiis facere rem laudantium sequi iure, repudiandae, est corporis fuga dolorum nobis, pariatur quam nihil incidunt animi. Asperiores totam voluptatem consectetur.',
       createdAt: Date.now(),
+      user: {
+        username: 'Ercan3 Akalar',
+      },
+      comment: [
+        { id: 2, username: 'Ercan2 Akalar' },
+        { id: 3, username: 'Ercan2 Akalar' },
+      ],
     },
     {
       id: 4,
@@ -33,6 +54,13 @@ const Home = () => {
       content:
         'Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur officiis facere rem laudantium sequi iure, repudiandae, est corporis fuga dolorum nobis, pariatur quam nihil incidunt animi. Asperiores totam voluptatem consectetur.',
       createdAt: Date.now(),
+      user: {
+        username: 'Ercan4 Akalar',
+      },
+      comment: [
+        { id: 2, username: 'Ercan2 Akalar' },
+        { id: 3, username: 'Ercan2 Akalar' },
+      ],
     },
     {
       id: 5,
@@ -40,6 +68,13 @@ const Home = () => {
       content:
         'Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur officiis facere rem laudantium sequi iure, repudiandae, est corporis fuga dolorum nobis, pariatur quam nihil incidunt animi. Asperiores totam voluptatem consectetur.',
       createdAt: Date.now(),
+      user: {
+        username: 'Ercan5 Akalar',
+      },
+      comment: [
+        { id: 2, username: 'Ercan2 Akalar' },
+        { id: 3, username: 'Ercan2 Akalar' },
+      ],
     },
     {
       id: 6,
@@ -47,6 +82,13 @@ const Home = () => {
       content:
         'Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur officiis facere rem laudantium sequi iure, repudiandae, est corporis fuga dolorum nobis, pariatur quam nihil incidunt animi. Asperiores totam voluptatem consectetur.',
       createdAt: Date.now(),
+      user: {
+        username: 'Ercan6 Akalar',
+      },
+      comment: [
+        { id: 2, username: 'Ercan2 Akalar' },
+        { id: 3, username: 'Ercan2 Akalar' },
+      ],
     },
   ]);
 
@@ -63,20 +105,37 @@ const Home = () => {
 
   return (
     <div
-      className='h-screen bg-cover'
+      className='h-full bg-cover'
       style={{ backgroundImage: `url(${heroPattern.src})` }}
     >
       <div className='flex flex-col justify-center items-center gap-20 text-black'>
         <h1>Blog Articles</h1>
         {blogPosts.map((post: any) => (
           <div key={post.id} className='w-1/2'>
-            <span>{new Date(post.createdAt).toLocaleString()}</span>
+            <div className='relative w-full'>
+              <span className='absolute p-1 left-4 -top-7 rounded-t bg-gray-800/50 text-sm text-white'>
+                {new Date(post.createdAt).toLocaleDateString('tr-TR', {
+                  weekday: 'long',
+                  year: 'numeric',
+                  month: 'long',
+                  day: '2-digit',
+                })}
+              </span>
+            </div>
             <div className='bg-white rounded-xl'>
               <h2>{post.title}</h2>
               <p>{post.content}</p>
               <p>
                 <small>
-                  Created at: {new Date(post.createdAt).toLocaleString()}
+                  Gönderen {post.user.username} zaman:
+                  {new Date(post.createdAt).toLocaleTimeString('tr-TR', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    hour12: false,
+                    timeZone: 'Europe/Istanbul',
+                  })}
+                  yorum: {post.comment.length}
                 </small>
               </p>
             </div>
