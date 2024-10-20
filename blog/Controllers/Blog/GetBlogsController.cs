@@ -17,9 +17,13 @@ namespace Blog.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<BlogPost>>> GetBlogPosts()
+        public async Task<ActionResult<IEnumerable<BlogPost>>> GetAllBlogs()
         {
-            return await _context.BlogPosts.ToListAsync();
+            var blogPosts = await _context.BlogPosts
+                .Include(b => b.Comments)  // Include related comments
+                .ToListAsync();
+
+            return Ok(blogPosts);
         }
     }
 }

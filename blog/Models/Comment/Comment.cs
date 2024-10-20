@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Blog.Models
@@ -12,5 +13,6 @@ namespace Blog.Models
 
         [Required]
         public string Content { get; set; }
+        public BlogPost BlogPost { get; set; }
     }
 }
