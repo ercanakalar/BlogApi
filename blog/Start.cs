@@ -26,13 +26,8 @@ namespace Blog
             });
 
             services.AddTransient<PasswordManager>();
-            services.AddCors(options =>
-            {
-                options.AddPolicy("Cors", builder =>
-                {
-                    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
-                });
-            });
+            
+            services.AddControllers();
 
             services.Configure<JwtOptions>(builder.Configuration.GetSection("JwtSettings"));
 
@@ -65,7 +60,6 @@ namespace Blog
                 };
             });
 
-            services.AddControllers();
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
@@ -90,18 +84,33 @@ namespace Blog
                 app.UseHsts();
             }
 
+            // CORS policy should be used before routing and authentication
+            app.UseCors(builder =>
+            {
+                builder.WithOrigins("http://localhost:3000")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials();
+            });
+            app.UseCors("CorsPolicy");
             app.UseResponseCompression();
 
             if (!app.Environment.IsDevelopment())
             {
                 app.UseHttpsRedirection();
             }
-            app.UseMiddleware<CookieAuthenticationMiddleware>();
+
             app.UseRouting();
+            
+            // Apply middleware for cookies if necessary
+            app.UseMiddleware<CookieAuthenticationMiddleware>();
+
             app.UseAuthentication();
             app.UseAuthorization();
+
             app.MapControllers();
         }
+
     }
 
 }
