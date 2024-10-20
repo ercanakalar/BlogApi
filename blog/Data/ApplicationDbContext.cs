@@ -13,17 +13,24 @@ namespace Blog.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Configure the BlogPost entity
             modelBuilder.Entity<BlogPost>()
                 .ToTable("BlogPost")
                 .HasMany(b => b.Comments)
-                .WithOne(c => c.BlogPost) // Establish the inverse relationship
-                .HasForeignKey(c => c.BlogId); // Specify the foreign key
+                .WithOne(c => c.BlogPost)
+                .HasForeignKey(c => c.BlogId);
 
-            // Configure the User entity
+            modelBuilder.Entity<BlogPost>()
+                .HasOne(b => b.User)
+                .WithMany(u => u.BlogPosts)
+                .HasForeignKey(b => b.UserId);
+
+            modelBuilder.Entity<Comment>()
+                .HasOne(c => c.User)
+                .WithMany(u => u.Comments)
+                .HasForeignKey(c => c.UserId);
+
             modelBuilder.Entity<User>().ToTable("Users");
 
-            // Configure the Comment entity
             modelBuilder.Entity<Comment>().ToTable("Comments");
         }
     }

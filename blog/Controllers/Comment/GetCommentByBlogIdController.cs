@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Blog.Data;
 using Blog.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Blog.Controllers
@@ -29,9 +30,23 @@ namespace Blog.Controllers
 
             var comments = await _context.Comments
                 .Where(c => c.BlogId == blogId)
+                .Include(c => c.User)
+                .Select(c => new
+                {
+                    c.Id,
+                    c.Content,
+                    c.CreatedAt,
+                    c.UpdatedAt,
+                    User = new
+                    {
+                        c.User.Id,
+                        c.User.UserName,
+                        c.User.Email
+                    }
+                })
                 .ToListAsync();
 
-            if (comments == null || comments.Count == 0)
+            if (!comments.Any())
             {
                 return NotFound("No comments found for this blog post.");
             }

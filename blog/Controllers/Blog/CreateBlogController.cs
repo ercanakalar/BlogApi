@@ -44,7 +44,20 @@ namespace Blog.Controllers
             _context.BlogPosts.Add(blogPost);
             await _context.SaveChangesAsync();
 
-            return Ok(blogPost);
+            return Ok(new
+            {
+                blogPost.ID,
+                blogPost.Title,
+                blogPost.Content,
+                blogPost.CreatedAt,
+                blogPost.UpdatedAt,
+                User = new
+                {
+                    user.Id,
+                    user.UserName,
+                    user.Email
+                }
+            });
         }
     }
 }

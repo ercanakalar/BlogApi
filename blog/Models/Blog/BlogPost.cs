@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-
+using Blog.Data;
 namespace Blog.Models
 {
     public class BlogPost
@@ -14,6 +14,8 @@ namespace Blog.Models
         public int UserId { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+
+        public User User { get; set; }
 
         public ICollection<Comment> Comments { get; set; }
     }

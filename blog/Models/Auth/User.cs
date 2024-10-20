@@ -1,4 +1,6 @@
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
+using Blog.Models;
 namespace Blog.Data
 {
     public class User
@@ -15,5 +17,9 @@ namespace Blog.Data
         public string ConfirmPassword { get; set; } = string.Empty;
         public string Role { get; set; } = string.Empty;
         public string? ExpireToken { get; internal set; }
+
+        public ICollection<BlogPost> BlogPosts { get; set; }
+        public ICollection<Comment> Comments { get; set; }
+
     }
 }

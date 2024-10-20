@@ -89,7 +89,6 @@ namespace Blog
                 app.UseHsts();
             }
 
-            // CORS policy should be used before routing and authentication
             app.UseCors(builder =>
             {
                 builder.WithOrigins("http://localhost:3000")
@@ -107,7 +106,6 @@ namespace Blog
 
             app.UseRouting();
             
-            // Apply middleware for cookies if necessary
             app.UseMiddleware<CookieAuthenticationMiddleware>();
 
             app.UseAuthentication();

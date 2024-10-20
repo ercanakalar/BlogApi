@@ -35,13 +35,21 @@ namespace Blog.Controllers
                 Content = createComment.Content,
                 UserId = int.Parse(userId),
                 BlogId = createComment.BlogId,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
             };
 
             _context.Comments.Add(comment);
             await _context.SaveChangesAsync();
 
-            return Ok(comment);
+            return Ok(new
+            {
+                comment.Id,
+                comment.Content,
+                comment.CreatedAt,
+                comment.UpdatedAt,
+               
+            });
         }
     }
 }

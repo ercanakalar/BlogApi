@@ -85,6 +85,8 @@ namespace Users.Migrations
 
                     b.HasKey("ID");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("BlogPost", (string)null);
                 });
 
@@ -116,7 +118,20 @@ namespace Users.Migrations
 
                     b.HasIndex("BlogId");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Comments", (string)null);
+                });
+
+            modelBuilder.Entity("Blog.Models.BlogPost", b =>
+                {
+                    b.HasOne("Blog.Data.User", "User")
+                        .WithMany("BlogPosts")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Blog.Models.Comment", b =>
@@ -127,7 +142,22 @@ namespace Users.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Blog.Data.User", "User")
+                        .WithMany("Comments")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("BlogPost");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Blog.Data.User", b =>
+                {
+                    b.Navigation("BlogPosts");
+
+                    b.Navigation("Comments");
                 });
 
             modelBuilder.Entity("Blog.Models.BlogPost", b =>

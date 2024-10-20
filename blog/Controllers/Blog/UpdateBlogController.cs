@@ -19,15 +19,18 @@ namespace Blog.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateBlog(int id, BlogPost blogPost)
+        public async Task<IActionResult> UpdateBlog(int id, CreateBlogDto blogPostDto)
         {
-            Console.WriteLine(id);
-            if (id != blogPost.ID)
+            var blogPost = await _context.BlogPosts.FindAsync(id);
+            if (blogPost == null)
             {
-                return BadRequest();
+                return NotFound("Blog post not found.");
             }
 
+            blogPost.Title = blogPostDto.Title;
+            blogPost.Content = blogPostDto.Content;
             blogPost.UpdatedAt = DateTime.UtcNow;
+
             _context.Entry(blogPost).State = EntityState.Modified;
 
             try
@@ -36,25 +39,13 @@ namespace Blog.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!BlogPostExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return NotFound();
             }
 
-             return Ok(new
+            return Ok(new
             {
                 message = "You have successfully updated the blog.",
             });
-        }
-
-        private bool BlogPostExists(int id)
-        {
-            return _context.BlogPosts.Any(e => e.ID == id);
         }
     }
 }

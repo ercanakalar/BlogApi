@@ -7,20 +7,19 @@ namespace Blog.Controllers
 {
     [ApiController]
     [Route("api/blog")]
-    public class GetBlogByIdController : ControllerBase
+    public class GetBlogAllController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public GetBlogByIdController(ApplicationDbContext context)
+        public GetBlogAllController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<BlogPost>> GetBlogById(int id)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<object>>> GetAllBlogs()
         {
-            var blogPost = await _context.BlogPosts
-                .Where(c => c.ID == id)
+            var blogPosts = await _context.BlogPosts
                 .Include(b => b.Comments)
                 .Select(b => new 
                 {
@@ -49,14 +48,9 @@ namespace Blog.Controllers
                         },
                     })
                 })
-                .FirstOrDefaultAsync();
+                .ToListAsync();
 
-            if (blogPost == null)
-            {
-                return NotFound("Blog post not found.");
-            }
-
-            return Ok(blogPost);
+            return Ok(blogPosts);
         }
     }
 }
