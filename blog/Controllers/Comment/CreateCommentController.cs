@@ -25,6 +25,12 @@ namespace Blog.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId == null)
                 return Unauthorized("User is not authenticated");
+            
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == int.Parse(userId));
+            if (user == null)
+            {
+                return NotFound("User does not exist.");
+            }
 
             var blogPost = await _context.BlogPosts.FindAsync(createComment.BlogId);
             if (blogPost == null)
@@ -48,6 +54,12 @@ namespace Blog.Controllers
                 comment.Content,
                 comment.CreatedAt,
                 comment.UpdatedAt,
+                User = new
+                {
+                    user.Id,
+                    user.UserName,
+                    user.Email
+                }
                
             });
         }

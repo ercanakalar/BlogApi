@@ -44,6 +44,7 @@ namespace Blog.Controllers
                         c.User.Email
                     }
                 })
+                .OrderBy(c => c.CreatedAt)
                 .ToListAsync();
 
             if (!comments.Any())
