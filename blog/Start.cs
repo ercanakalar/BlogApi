@@ -21,9 +21,7 @@ namespace Blog
         public void ConfigureServices(IServiceCollection services, WebApplicationBuilder builder)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-            {
-                options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
-            });
+                options.UseSqlite("Data Source=blog.db"));
 
             services.AddTransient<PasswordManager>();
             
