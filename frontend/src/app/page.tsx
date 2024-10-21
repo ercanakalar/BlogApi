@@ -17,7 +17,7 @@ const Home = () => {
 
   return (
     <div>
-      <h1>Welcome, {user?.username}</h1>
+      <h1>Welcome</h1>
     </div>
   );
 };

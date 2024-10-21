@@ -5,6 +5,11 @@ export interface Comment {
   content: string;
   createdAt: string;
   updatedAt: string;
+  user: {
+    id: number;
+    userName: string;
+    email: string;
+  };
 }
 
 export interface CommentState {
