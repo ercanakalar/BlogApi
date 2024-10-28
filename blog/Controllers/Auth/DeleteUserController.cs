@@ -1,7 +1,7 @@
 using Blog.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
 
 namespace Blog;
 
@@ -10,10 +10,12 @@ namespace Blog;
 public class DeleteUserController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
+
     public DeleteUserController(ApplicationDbContext context)
     {
         _context = context;
     }
+
     [Authorize]
     [HttpDelete("{id}")]
     [ActionName("delete-user")]
